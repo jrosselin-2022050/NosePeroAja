@@ -13,6 +13,9 @@ export const testReservacion = (req, res)=>{
 export const addReservacion = async(req, res)=>{
     try{
         let data = req.body
+        let dataCategory = {
+            disponibilidad: false
+        }
         let { id } = req.user
         
         let existeUser = await User.findOne({_id:id})
@@ -24,13 +27,22 @@ export const addReservacion = async(req, res)=>{
 
         let existeHabitacion = await Habitacion.findOne({_id:data.habitacion})
         if(!existeHabitacion) return res.status(404).send({message: 'The Habitacion not found'})
-        
+        if(existeHabitacion.disponibilidad == false) return res.status(401).send({message: 'The Habitacion not is available'})
+            
+        //Cambiar estado
+        let habitacionUpdate = await Habitacion.findOneAndUpdate(
+            {_id: existeHabitacion._id},
+            dataCategory,
+            {new: true})
+        if(!habitacionUpdate) return res.status(401).send({message: 'The room could not be updated'}) 
+
         let reservacion = new Reservacion(data)
         await reservacion.save()
         setReservacion(existeUser, existeHotel, existeHabitacion, reservacion)
         
         let fechaActual = obtenerFechaActual()
-        if(fechaActual>=data.fechaInicio || fechaActual>= fechaFinalizacion)
+        console.log(fechaActual);
+        if(fechaActual>=data.fechaInicio || fechaActual>= data.fechaFinalizacion)
             return res.status(400).send({message: 'You cannot request past days'})
         else if(data.fechaFinalizacion<data.fechaInicio)
             return res.status(400).send({message: 'Logically, you cannot request a start date after the end date, please try again.'})

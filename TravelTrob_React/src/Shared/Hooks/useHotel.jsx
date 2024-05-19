@@ -23,7 +23,7 @@ export const useHotel = () => {
         'Error al obtener los hoteles'
       )
     }
-    setHotels(response.data.message)
+    setHotels(response.data.hoteles)
   }
 
   return {

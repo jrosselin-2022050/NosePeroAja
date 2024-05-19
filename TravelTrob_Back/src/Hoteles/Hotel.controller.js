@@ -16,11 +16,12 @@ export const testHotel = (req, res) => {
 
 export const addHotel = async (req, res) => {
     try {
-        let { nombre, direccion, telefono, descripcion, categoria } = req.body
+        let { nombre, direccion, telefono, descripcion, ubicacion, categoria } = req.body
         let existeCategoria = await Category.findOne({_id: categoria})
 
         if (!existeCategoria)
             return res.status(404).send({ message: 'The category not found' })
+
 
         const validacion = validar(nombre,direccion,telefono,descripcion,ubicacion,req.file,'Y')
         if(validacion == ''){
@@ -29,6 +30,7 @@ export const addHotel = async (req, res) => {
                 direccion: direccion,
                 telefono: telefono,
                 descripcion: descripcion,
+                ubicacion: ubicacion,
                 categoria: categoria,
                 imagen: req.file.filename
             })
@@ -44,8 +46,22 @@ export const addHotel = async (req, res) => {
 
 export const viewHotel = async (req, res) => {
     try {
-        let hoteles = await Hotel.find({})
-        return res.send({ message: hoteles })
+        let categorys = await Category.find({})
+        let hoteles = []
+        
+        await Promise.all(categorys.map(async (category) => {
+            let hotelesAdd = await Hotel.find({ categoria: category.id })
+            hotelesAdd = hotelesAdd.map(hotel => ({
+                ...hotel.toObject(),
+                nombreCategoria: category.name
+            }))
+            hoteles.push({
+                titulo: category.name,
+                hoteles: hotelesAdd
+            })
+        }))
+
+        return res.send({ hoteles })
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: err })

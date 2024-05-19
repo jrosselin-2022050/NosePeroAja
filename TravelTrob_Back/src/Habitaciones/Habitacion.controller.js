@@ -28,7 +28,7 @@ export const addHabitacion = async(req, res)=>{
 
 export const viewHabitacion = async(req, res)=>{
     try{
-        let habitaciones = await Habitacion.find({})
+        let habitaciones = await Habitacion.find({disponibilidad: true})
         return res.send({message: habitaciones})
     }catch(err){
         console.error(err)
