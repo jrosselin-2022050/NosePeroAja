@@ -6,9 +6,7 @@ export const BarraBusqueda = () => {
         <section className="search-section">
             <section className="search-section">
                 <h1>Hola, ¿cómo podemos ayudarte?</h1>
-                <div className="search-box">
-                    <input type="text" placeholder="Buscar..." />
-                </div>
+                <h1>-----------------------------</h1>
             </section>
         </section>
     )
