@@ -7,7 +7,8 @@ import {
     deleteHabitacion, 
     testHabitacion,
     updateHabitacion, 
-    viewHabitacion 
+    viewHabitacion, 
+    viewHotelForHabitacion
 } from './Habitacion.controller.js'
 
 const api = Router()
@@ -17,5 +18,6 @@ api.post('/addHabitacion', [validateJwt, isAdmin], addHabitacion)
 api.get('/viewHabitacion/:idHotel', [validateJwt], viewHabitacion)
 api.put('/updateHabitacion/:id', [validateJwt, isAdmin], updateHabitacion)
 api.delete('/deleteHabitacion/:id', [validateJwt, isAdmin], deleteHabitacion)
+api.get('/viewHotelForHabitacion/:id', [validateJwt], viewHotelForHabitacion)
 
 export default api

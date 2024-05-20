@@ -64,10 +64,32 @@ export const getHotelsRequest = async()=>{
     }
 }
 
+export const getHotelsRequestId = async(id)=>{
+    try{
+        return await apiClient.get(`/habitacion/viewHotelForHabitacion/${id}`)
+    }catch(err){
+        console.log(err)
+        return{
+            error: true,
+            err
+        }
+    }
+}
+
 export const saveHotel = async(hotel)=>{
     try{
         return await apiClient.post('hotel/saveHotel', hotel, {'Content-Type': 'multipart/form-data'})
+    }catch(err){
+        return {
+            error: true,
+            err
+        }
+    }
+}
 
+export const saveReservaRequest = async(data)=>{
+    try{
+        return await apiClient.post('/Reservacion/addReservacion', data)
     }catch(err){
         return {
             error: true,

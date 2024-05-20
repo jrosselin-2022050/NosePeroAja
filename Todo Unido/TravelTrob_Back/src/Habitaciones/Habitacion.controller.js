@@ -3,7 +3,6 @@
 import Habitacion from './Habitacion.model.js'
 import CHabitacionModel from '../CategoriaHabitacion/CHabitacion.model.js'
 import Hotel from '../Hoteles/Hotel.model.js'
-import mongoose from 'mongoose'
 
 export const testHabitacion = (req, res)=>{
     return res.send({message: 'Conexion a Habitacion'})
@@ -35,7 +34,14 @@ export const viewHabitacion = async (req, res) => {
         let categorys = await CHabitacionModel.find({})
         let habitaciones = []
         await Promise.all(categorys.map(async (category) => {
-            let habitacionAdd = await Habitacion.find({ cHabitacion: category.id } && { hotel: idHotel})
+            let habitacionAdd = await Habitacion.find({
+                $and: [
+                    { cHabitacion: category._id },
+                    { hotel: idHotel },
+                    { disponibilidad: true }
+                ]
+            })
+            console.log(habitacionAdd)
             habitacionAdd = habitacionAdd.map(hotel => ({
                 ...hotel.toObject(),
                 nombreCategoria: category.name
@@ -45,9 +51,22 @@ export const viewHabitacion = async (req, res) => {
                 habitaciones: habitacionAdd
             })
         }))
-
         return res.send({ habitaciones, hotelName: existHotel.nombre })
     } catch (err) {
+        console.error(err)
+        return res.status(500).send({ message: err })
+    }
+}
+
+export const viewHotelForHabitacion = async (req, res) => {
+    try{
+        let { id } = req.params
+        console.log(id)
+        let habitacion = await Habitacion.findOne({_id:id})
+        let hotel = await Hotel.findOne({_id:habitacion.hotel})
+        console.log(hotel)
+        return res.send({hotel})
+    }catch(err){
         console.error(err)
         return res.status(500).send({ message: err })
     }

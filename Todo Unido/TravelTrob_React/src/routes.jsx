@@ -9,8 +9,9 @@ import { ContentHabitacion } from "./Components/Habitaciones/ContentHabitacion.j
 export const routes = [
     { path: '/auth', element: <Auth /> },
     { path: '/feed', element: <Feed /> },
-    { path: '/reserva', element: <Reserva /> },
     { path: '/*', element: <Info /> },
-    {path: '/register', element: <Register/>},
-    {path: '/habitaciones/:idHotel', element: <ContentHabitacion/>}
+    { path: '/reservacion', element: <Reserva />},
+    { path: '/register', element: <Register/>},
+    { path: '/habitaciones/:idHotel', element: <ContentHabitacion/>},
+    { path: '/habitaciones/:idHotel/reservacion/:idHabitacion', element: <Reserva /> }
 ]

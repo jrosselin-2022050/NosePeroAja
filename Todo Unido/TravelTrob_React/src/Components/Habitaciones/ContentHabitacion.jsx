@@ -3,7 +3,7 @@ import { CardHabitacion } from './CardHabitacion.jsx';
 import '../../Pages/Feed/Feed.css'
 import { useEffect } from 'react';
 import { useHabitacion } from '../../Shared/Hooks/useHabitacion.jsx'
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 
 
 export const ContentHabitacion = () => {
@@ -12,7 +12,7 @@ export const ContentHabitacion = () => {
 
     useEffect(() => {
       getHabitaciones(idHotel)
-    }, [])
+    }, [idHotel])
 
     if (isFetching) {
         return (
@@ -40,6 +40,7 @@ export const ContentHabitacion = () => {
                         categoriaHabitaciones.habitaciones.map((habitacione, j) => (
                           <CardHabitacion
                             key={j}
+                            id={habitacione._id}
                             disponibilidad={habitacione.disponibilidad}
                             numeroCuarto={habitacione.numeroCuarto}
                             descripcion={habitacione.descripcion}
@@ -52,6 +53,7 @@ export const ContentHabitacion = () => {
                 ))
               }
             </div>
+            <Outlet />
         </div>
     )
 }
