@@ -1,8 +1,15 @@
-import React from 'react';
+import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import './CSS/Card.css'
 
-export const Card = ({ title, image, description }) => {
+export const Card = ({ id, title, image, description, infoButon }) => {
     const urlBase = 'http://localhost:3200/Hotel/getImage/'
+    const navigate = useNavigate()
+
+    const habitaciones = ()=>{
+        navigate(`/habitaciones/${id}`)
+    }
+
     return (
         <div>
             <div className="card">
@@ -11,6 +18,7 @@ export const Card = ({ title, image, description }) => {
                     <h2 className="card-title">{title}</h2>
                     <p className="card-description">{description}</p>
                     <button>Ver mas...</button>
+                    <button onClick={habitaciones}>{infoButon}</button>
                 </div>
             </div>
         </div>

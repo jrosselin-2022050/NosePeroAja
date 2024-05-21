@@ -1,25 +1,23 @@
 'use strict'
 
-import Habitacion from '../Habitaciones/Habitacion.model.js'
-import CHabitacion from './CHabitacion.model.js'
+import TipoEvento from './TipoEvento.Model.js'
 
 export const testCHabitacion = (req, res) => {
     return res.send({ message: 'Conexion a CHabitacion' })
 }
 
-export const CHabitacionDefault = async (req, res) => {
+export const tipoEventoDefault = async (req, res) => {
     try {
-        let existe = await CHabitacion.findOne({ Nombre: 'Default' })
+        let existe = await TipoEvento.findOne({ nombre: 'Default' })
         if (!existe) {
             let data = {
-                Nombre: 'Default',
-                Contenido: 'Categoria por Default',
+                nombre: 'Default'
             }
-            let dCHabitacion = new CHabitacion(data)
-            await dCHabitacion.save()
-            console.log('Category Default Create')
+            let tipoEvento = new TipoEvento(data)
+            await tipoEvento.save()
+            console.log('Type Evente Default Create')
         }
-        console.log('Category already exists')
+        console.log('Type Evente already exists')
     } catch (err) {
         console.error(err)
         return res
@@ -28,18 +26,18 @@ export const CHabitacionDefault = async (req, res) => {
     }
 }
 
-export const addCHabitacion = async (req, res) => {
+export const addTipoEvento = async (req, res) => {
     try {
         let data = req.body
-        let cHabitacion = new CHabitacion(data)
-        await cHabitacion.save()
-        return res.send({ message: 'saved category room', cHabitacion })
+        let tipoEvento = new TipoEvento(data)
+        await tipoEvento.save()
+        return res.send({ message: 'saved category room', tipoEvento })
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: err })
     }
 }
-
+/*
 export const viewCHabitacion = async (req, res) => {
     try {
         let cHabitaciones = await CHabitacion.find({})
@@ -96,3 +94,4 @@ export const deleteCHabitacion = async (req, res) => {
         return res.status(500).send({ message: err })
     }
 }
+*/

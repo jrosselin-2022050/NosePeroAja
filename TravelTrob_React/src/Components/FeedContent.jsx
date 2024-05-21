@@ -19,12 +19,6 @@ export const FeedContent = () => {
         )
     }
 
-    for (let i = 0; i < hotels.length; i++) {
-      for (let j = 0; j < hotels[i].length; j++) {
-        nombreCategory.push(hotels[j][i].nombreCategory)
-      }
-    }
-
     return (
         <div>
             <div className='NavBarBuscar'>
@@ -37,17 +31,19 @@ export const FeedContent = () => {
               {
                 hotels.map((categoriaHoteles, i) => (
                   <div key={i} className='hotel-category'>
-                    <div className='TituloFeed'>
-                  </div>
-                    <h1>{categoriaHoteles.titulo}</h1>
+                    <div key={i} className='TituloFeed'>
+                      <h1>{categoriaHoteles.titulo}</h1>
+                    </div>
                     <div className='hotel-cards'>
                       {
                         categoriaHoteles.hoteles.map((hotel, j) => (
                           <Card
                             key={j}
+                            id={hotel._id}
                             title={hotel.nombre}
                             image={hotel.imagen}
                             description={hotel.descripcion}
+                            infoButon='Ir a Habitaciones'
                           />
                         ))
                       }
