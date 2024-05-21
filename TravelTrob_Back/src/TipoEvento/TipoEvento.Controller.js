@@ -1,6 +1,7 @@
 'use strict'
 
 import TipoEvento from './TipoEvento.Model.js'
+import Evento from '../Evento/Evento.Model.js'
 
 export const testCHabitacion = (req, res) => {
     return res.send({ message: 'Conexion a CHabitacion' })
@@ -31,42 +32,42 @@ export const addTipoEvento = async (req, res) => {
         let data = req.body
         let tipoEvento = new TipoEvento(data)
         await tipoEvento.save()
-        return res.send({ message: 'saved category room', tipoEvento })
-    } catch (err) {
-        console.error(err)
-        return res.status(500).send({ message: err })
-    }
-}
-/*
-export const viewCHabitacion = async (req, res) => {
-    try {
-        let cHabitaciones = await CHabitacion.find({})
-        return res.send({ message: cHabitaciones })
+        return res.send({ message: 'save tipo evento', tipoEvento })
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: err })
     }
 }
 
-export const updateCHabitacion = async (req, res) => {
+export const viewTipoEvento = async (req, res) => {
+    try {
+        let tipoEvento = await TipoEvento.find({})
+        return res.send({ tipoEvento })
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send({ message: err })
+    }
+}
+
+export const updateTipoEvento = async (req, res) => {
     try {
         let { id } = req.params
-        let existCHabitacion = await CHabitacion.findOne({ _id: id })
-        if (!existCHabitacion)
+        let existTipoEvento = await TipoEvento.findOne({ _id: id })
+        if (!existTipoEvento)
             return res
                 .status(404)
-                .send({ message: 'The category room not exist' })
+                .send({ message: 'The type event not exist' })
         let data = req.body
-        let cHabitacionUpdate = await CHabitacion.findOneAndUpdate(
+        let tipoEventActualizado = await TipoEvento.findOneAndUpdate(
             { _id: id },
             data,
             { new: true }
         )
-        if (!cHabitacionUpdate)
+        if (!tipoEventActualizado)
             return res
                 .status(401)
-                .send({ message: 'The category room could not be updated' })
-        return res.send({ message: 'Updated course', cHabitacionUpdate })
+                .send({ message: 'The type event could not be updated' })
+        return res.send({ message: 'Updated course', tipoEventActualizado })
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: err })
@@ -74,24 +75,23 @@ export const updateCHabitacion = async (req, res) => {
 }
 
 //@ Modified By: Yerick Aguilar
-export const deleteCHabitacion = async (req, res) => {
+export const deleteTipoEvento = async (req, res) => {
     try {
         let { id } = req.params
         //# Validate If Exists
-        let existCHabitacion = await CHabitacion.findOne({ _id: id })
-        if (!existCHabitacion)return res.status(404).send({ message: 'This Category Does Not Exists' })
+        let existeTipoEvento = await TipoEvento.findOne({ _id: id })
+        if (!existeTipoEvento)return res.status(404).send({ message: 'This Category Does Not Exists' })
 
-        //# Update CHabitacion To: 'Default'
-        const defaultCHabitacion = await CHabitacion.findOne({Nombre: 'Default'})
-        await Habitacion.updateMany({cHabitacion: id}, {cHabitacion: defaultCHabitacion._id})
+            //# Update CHabitacion To: 'Default'
+        const defaultTipoEvento = await TipoEvento.findOne({Nombre: 'Default'})
+        await Evento.updateMany({cHabitacion: id}, {cHabitacion: defaultTipoEvento._id})
 
         //# Delete CHabitacion
-        let cHabitacionDelte = await CHabitacion.findOneAndDelete({ _id: id })
-        if (!cHabitacionDelte)return res.status(404).send({ message: 'Category Not Found, Not Deleted' })
-        return res.send({message: `The category room: ${cHabitacionDelte.Nombre} has been successfully removed`})
+        let tipoEventoDelete = await TipoEvento.findOneAndDelete({ _id: id })
+        if (!tipoEventoDelete)return res.status(404).send({ message: 'Category Not Found, Not Deleted' })
+        return res.send({message: `The type event: ${tipoEventoDelete.nombre} has been successfully removed`})
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: err })
     }
 }
-*/
